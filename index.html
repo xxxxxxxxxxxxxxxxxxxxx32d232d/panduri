@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ფანდური — გაკვეთილები, ტუნერი, ოსტატები</title>
+<meta name="theme-color" content="#EAD8B4">
 <meta name="description" content="ისწავლე ხალხური სიმღერები ფანდურზე, ააწყვე ინსტრუმენტი ონლაინ ტუნერით და იპოვე ფანდურის ოსტატი.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪕</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,8 +12,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian:wght@400;600;800&family=Noto+Sans+Georgian:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --mist:#DCE2DF; --paper:#EEF1EE; --ink:#1D2A2B; --ink-soft:#4B5A5A;
-  --wine:#7A1F2B; --walnut:#4A3325; --ochre:#B98A2E; --line:#A9B4B0; --ok:#2F6B45;
+  /* თუთა: ხის ღია ოქროსფერი, გულის ხის ყავისფერი და ნაყოფის მუქი იისფერი */
+  --mist:#EAD8B4; --paper:#F4E7CC; --ink:#2B1A22; --ink-soft:#6A4E45;
+  --wine:#5E1F45; --walnut:#6E4122; --ochre:#C98A1E; --line:#CDB58A; --ok:#3F6B2F;
+  --neck:#5A3219; --neck-2:#6E4122; --string:#EFE3C8; --fret:#C9B48A;
   --serif:"Noto Serif Georgian", Georgia, serif;
   --sans:"Noto Sans Georgian", system-ui, -apple-system, "Segoe UI", sans-serif;
   box-sizing:border-box;
@@ -20,8 +23,9 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --mist:#162020; --paper:#1D2929; --ink:#E6ECE9; --ink-soft:#A3B2AE;
-    --wine:#D0566A; --walnut:#C9A58A; --ochre:#D8AE52; --line:#3A4A48; --ok:#6CC08A;
+    --mist:#1E1418; --paper:#2A1D21; --ink:#F1E4CC; --ink-soft:#BFA88C;
+    --wine:#D98AB8; --walnut:#9A6A3E; --ochre:#E3A640; --line:#4A3530; --ok:#8CC06A;
+    --neck:#3A2112; --neck-2:#4A2C18; --string:#E8DCC0; --fret:#8C7550;
   }
 }
 *,*::before,*::after{box-sizing:inherit}
@@ -56,14 +60,29 @@ nav a:hover{color:var(--wine)}
 .meter .ticks{position:absolute; inset:34px 0 0 0; display:flex; justify-content:space-between; font-size:13px; color:var(--ink-soft)}
 .status{color:var(--ink-soft); font-size:15px; margin-top:6px; min-height:1.6em}
 
+/* wood grain on tuner panel */
+.tuner{position:relative; overflow:hidden}
+.tuner::before{content:""; position:absolute; inset:0; pointer-events:none; opacity:.35; mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.004 0.09' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.38 0 0 0 0 0.2 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size:1400px 400px}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .tuner::before{mix-blend-mode:screen; opacity:.12} }
+:root[data-theme="dark"] .tuner::before{mix-blend-mode:screen; opacity:.12}
+.tuner > *{position:relative}
+
 /* three strings */
-.strings{margin:24px 0 8px; display:grid; gap:10px}
-.string{display:grid; grid-template-columns:110px 1fr; align-items:center; gap:14px; background:none; border:0; padding:6px 0; cursor:pointer; color:var(--ink); font:inherit; text-align:left}
-.string .lbl{font-weight:700}
+.strings{margin:24px 0 8px; display:grid; gap:0}
+.string{display:grid; grid-template-columns:150px 1fr; align-items:stretch; min-height:52px; gap:14px; background:none; border:0; padding:0; cursor:pointer; color:var(--ink); font:inherit; text-align:left}
+.string .lbl{font-weight:700; align-self:center; padding:4px 0}
 .string .lbl small{display:block; font-weight:400; color:var(--ink-soft); font-size:13px}
-.string svg{width:100%; height:24px; overflow:visible}
-.string path{stroke:var(--walnut); fill:none; stroke-linecap:round}
-.string.active path{stroke:var(--wine)}
+.string svg{width:100%; height:100%; min-height:52px; display:block; overflow:visible;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 58px, var(--fret) 58px 61px),
+    var(--neck);
+  }
+.string:first-child svg{border-radius:6px 6px 0 0}
+.string:last-child svg{border-radius:0 0 6px 6px}
+.string path{stroke:var(--string); fill:none; stroke-linecap:round}
+.string.active path{stroke:var(--ochre)}
 .string.active .lbl{color:var(--wine)}
 .controls{display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-top:16px}
 .btn{font:inherit; font-weight:700; padding:12px 20px; border-radius:4px; border:2px solid var(--wine); background:var(--wine); color:#fff; cursor:pointer}
@@ -93,6 +112,15 @@ section.block .sub{color:var(--ink-soft); margin:0 0 24px; max-width:60ch}
 .media .tag{position:absolute; left:10px; top:10px; font-size:12px; font-weight:700; padding:3px 8px; border-radius:3px; background:rgba(0,0,0,.6); color:#fff}
 .media .empty{position:absolute; inset:0; display:grid; place-items:center; color:#E9DCCF; font-size:15px; text-align:center; padding:16px}
 .media iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
+
+/* songs */
+.songs{display:flex; flex-wrap:wrap; gap:4px 28px; margin:0 0 28px; border-bottom:1px solid var(--line)}
+.song-tab{font:inherit; font-family:var(--serif); font-weight:600; font-size:clamp(20px,2.6vw,28px); background:none; border:0; padding:6px 0 12px; margin-bottom:-1px; color:var(--ink-soft); cursor:pointer; border-bottom:3px solid transparent}
+.song-tab:hover{color:var(--ink)}
+.song-tab[aria-selected="true"]{color:var(--wine); border-bottom-color:var(--wine)}
+.song-head{display:flex; flex-wrap:wrap; gap:8px 24px; align-items:baseline; margin-bottom:8px; color:var(--ink-soft); font-size:15px}
+.song-about{max-width:62ch; margin:0 0 24px}
+h3.more{font-family:var(--serif); font-size:22px; margin:48px 0 16px}
 
 /* chords */
 .chords{display:grid; grid-template-columns:repeat(auto-fill,minmax(132px,1fr)); gap:16px}
@@ -135,7 +163,7 @@ footer{padding:40px 0; color:var(--ink-soft); font-size:14px; border-top:1px sol
     <nav aria-label="მთავარი">
       <a href="#tuner">ტუნერი</a>
       <a href="#chords">აკორდები</a>
-      <a href="#lessons">გაკვეთილები</a>
+      <a href="#lessons">სიმღერები</a>
       <a href="#masters">ოსტატები</a>
     </nav>
   </div>
@@ -191,17 +219,12 @@ footer{padding:40px 0; color:var(--ink-soft); font-size:14px; border-top:1px sol
 
   <section class="block" id="lessons">
     <div class="wrap">
-      <h2>ხალხური სიმღერების გაკვეთილები</h2>
-      <p class="sub">შერჩეული ვიდეოები YouTube-იდან და TikTok-იდან. აირჩიე დონე ან მოძებნე სიმღერა.</p>
-      <div class="filters" id="lessonFilters">
-        <button class="chip" data-f="level" data-v="" aria-pressed="true">ყველა</button>
-        <button class="chip" data-f="level" data-v="დამწყები" aria-pressed="false">დამწყები</button>
-        <button class="chip" data-f="level" data-v="საშუალო" aria-pressed="false">საშუალო</button>
-        <button class="chip" data-f="level" data-v="გამოცდილი" aria-pressed="false">გამოცდილი</button>
-        <input type="search" id="lessonSearch" placeholder="მოძებნე სიმღერა" aria-label="სიმღერის ძებნა">
-      </div>
+      <h2>სიმღერები და გაკვეთილები</h2>
+      <p class="sub">აირჩიე სიმღერა და ნახე მისი გაკვეთილები.</p>
+      <div class="songs" role="tablist" aria-label="სიმღერები" id="songTabs"></div>
+      <div id="songPanel" role="tabpanel"></div>
+      <h3 class="more">მეტი ვიდეო</h3>
       <div id="playlists"></div>
-      <div class="lessons" id="lessonGrid"></div>
     </div>
   </section>
 
@@ -252,7 +275,7 @@ function renderStrings(){
     b.className = "string"; b.dataset.i = i;
     b.setAttribute("aria-label", `${STRING_LABELS[i]} სიმი, ${GE_NAMES[midiName(m)]} — მოსმენა`);
     b.innerHTML = `<span class="lbl">${GE_NAMES[midiName(m)]} (${midiName(m)})<small>${STRING_LABELS[i]} სიმი</small></span>
-      <svg viewBox="0 0 400 24" preserveAspectRatio="none"><path stroke-width="${3.2 - i*0.7}" d="M0 12 Q200 12 400 12"/></svg>`;
+      <svg viewBox="0 0 400 34" preserveAspectRatio="none"><path stroke-width="${3.2 - i*0.7}" d="M0 17 Q200 17 400 17"/></svg>`;
     b.addEventListener("click", ()=>{ playRef(m); vibrate(i, 1); });
     stringsEl.appendChild(b);
   });
@@ -266,7 +289,7 @@ function vibrate(i, amp){ vib[i] = Math.max(vib[i], amp); }
 (function animate(t){
   stringsEl.querySelectorAll(".string").forEach((el,i)=>{
     const a = vib[i] * 9 * Math.sin(t/18 + i);
-    el.querySelector("path").setAttribute("d", `M0 12 Q200 ${12 + a} 400 12`);
+    el.querySelector("path").setAttribute("d", `M0 17 Q200 ${17 + a} 400 17`);
     vib[i] *= 0.95;
   });
   requestAnimationFrame(animate);
@@ -433,45 +456,51 @@ document.querySelectorAll("#chordFilters .chip").forEach(ch=>ch.addEventListener
 tuningSel.addEventListener("change", renderChords);
 renderChords();
 
-/* ---------- lessons ---------- */
-const grid = document.getElementById("lessonGrid"), searchEl = document.getElementById("lessonSearch");
-let levelFilter = "";
-document.querySelectorAll('#lessonFilters .chip').forEach(ch=>ch.addEventListener("click", ()=>{
-  levelFilter = ch.dataset.v;
-  document.querySelectorAll('#lessonFilters .chip').forEach(c=>c.setAttribute("aria-pressed", c===ch));
-  renderLessons();
-}));
-searchEl.addEventListener("input", renderLessons);
-
+/* ---------- songs & lessons ---------- */
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const SONGS = DATA.songs || [];
+const songTabs = document.getElementById("songTabs"), songPanel = document.getElementById("songPanel");
+let curSong = 0;
 
-function renderLessons(){
-  const q = searchEl.value.trim().toLowerCase();
-  const list = DATA.lessons.filter(l => (!levelFilter || l.level===levelFilter) &&
-    (!q || (l.title+" "+l.song+" "+l.region).toLowerCase().includes(q)));
-  if (!list.length){ grid.innerHTML = `<p class="empty-state">ამ ძებნით გაკვეთილი ვერ მოიძებნა. სცადე სხვა სიტყვა ან აირჩიე „ყველა“.</p>`; return; }
-  grid.innerHTML = list.map((l,idx)=>{
-    const vertical = l.platform === "tiktok";
-    const tag = vertical ? "TikTok" : "YouTube";
-    let inner;
-    if (!l.id) inner = `<span class="tag">${tag}</span><div class="empty">ვიდეო მალე დაემატება</div>`;
-    else if (vertical) inner = `<span class="tag">${tag}</span><button data-idx="${idx}" aria-label="ვიდეოს ჩართვა: ${esc(l.title)}"><span class="play"></span></button>`;
-    else inner = `<img loading="lazy" src="https://i.ytimg.com/vi/${esc(l.id)}/hqdefault.jpg" alt=""><span class="tag">${tag}</span><button data-idx="${idx}" aria-label="ვიდეოს ჩართვა: ${esc(l.title)}"><span class="play"></span></button>`;
-    return `<article class="lesson">
-      <div class="media ${vertical ? "vertical" : ""}">${inner}</div>
-      <h3>${esc(l.title)}</h3>
-      <div class="meta">${esc(l.level)}${l.region ? ", " + esc(l.region) : ""}</div>
-    </article>`;
-  }).join("");
-  grid.querySelectorAll(".media button").forEach(btn=>btn.addEventListener("click", ()=>{
-    const l = list[+btn.dataset.idx], box = btn.parentElement;
+function lessonCard(l, idx){
+  const vertical = l.platform === "tiktok", tag = vertical ? "TikTok" : "YouTube";
+  let inner;
+  if (!l.id) inner = `<span class="tag">${tag}</span><div class="empty">ვიდეო მალე დაემატება</div>`;
+  else if (vertical) inner = `<span class="tag">${tag}</span><button data-idx="${idx}" aria-label="ვიდეოს ჩართვა: ${esc(l.title)}"><span class="play"></span></button>`;
+  else inner = `<img loading="lazy" src="https://i.ytimg.com/vi/${esc(l.id)}/hqdefault.jpg" alt=""><span class="tag">${tag}</span><button data-idx="${idx}" aria-label="ვიდეოს ჩართვა: ${esc(l.title)}"><span class="play"></span></button>`;
+  return `<article class="lesson"><div class="media ${vertical ? "vertical" : ""}">${inner}</div>
+    <h3>${esc(l.title)}</h3><div class="meta">${esc(l.level || "")}</div></article>`;
+}
+
+function renderSongTabs(){
+  songTabs.innerHTML = SONGS.map((s,i)=>`<button class="song-tab" role="tab" id="tab-${i}" aria-selected="${i===curSong}" tabindex="${i===curSong?0:-1}">${esc(s.name)}</button>`).join("");
+  songTabs.querySelectorAll(".song-tab").forEach((b,i)=>{
+    b.addEventListener("click", ()=>{ curSong = i; renderSongTabs(); renderSong(); });
+    b.addEventListener("keydown", e=>{
+      if (e.key!=="ArrowRight" && e.key!=="ArrowLeft") return;
+      curSong = (curSong + (e.key==="ArrowRight"?1:-1) + SONGS.length) % SONGS.length;
+      renderSongTabs(); renderSong(); songTabs.children[curSong].focus();
+    });
+  });
+}
+
+function renderSong(){
+  const s = SONGS[curSong];
+  if (!s){ songPanel.innerHTML = `<p class="empty-state">სიმღერები ჯერ არ არის დამატებული. დაამატე data.js-ში.</p>`; return; }
+  songPanel.setAttribute("aria-labelledby", "tab-"+curSong);
+  const meta = [s.region && "კუთხე: "+esc(s.region), s.rhythm && "რიტმი: "+esc(s.rhythm)].filter(Boolean).join("</span><span>");
+  songPanel.innerHTML = `${meta ? `<div class="song-head"><span>${meta}</span></div>` : ""}
+    ${s.about ? `<p class="song-about">${esc(s.about)}</p>` : ""}
+    <div class="lessons">${(s.lessons||[]).map(lessonCard).join("")}</div>`;
+  songPanel.querySelectorAll(".media button").forEach(btn=>btn.addEventListener("click", ()=>{
+    const l = s.lessons[+btn.dataset.idx], box = btn.parentElement;
     const src = l.platform === "tiktok"
       ? `https://www.tiktok.com/embed/v2/${encodeURIComponent(l.id)}`
       : `https://www.youtube-nocookie.com/embed/${encodeURIComponent(l.id)}?autoplay=1&rel=0`;
     box.innerHTML = `<iframe src="${src}" title="${esc(l.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
   }));
 }
-renderLessons();
+renderSongTabs(); renderSong();
 
 /* ---------- playlists ---------- */
 document.getElementById("playlists").innerHTML = (DATA.playlists||[]).filter(p=>p.id).map((p,i)=>`

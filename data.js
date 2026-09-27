@@ -2,16 +2,9 @@
 //  აქ ცვლი საიტის შიგთავსს — HTML-ში ჩარევა არ გჭირდება.
 // ============================================================
 //
-//  გაკვეთილის დამატება:
-//   platform: "youtube" ან "tiktok"
-//   id: ვიდეოს ID ბმულიდან
-//     YouTube:  https://www.youtube.com/watch?v=dQw4w9WgXcQ  ->  "dQw4w9WgXcQ"
-//               https://youtu.be/dQw4w9WgXcQ                 ->  "dQw4w9WgXcQ"
-//     TikTok:   https://www.tiktok.com/@user/video/7312345678901234567 -> "7312345678901234567"
-//   level: "დამწყები" | "საშუალო" | "გამოცდილი"
-//
-//  ქვემოთ ID-ების ნაცვლად ცარიელი ველებია — ჩასვი შენი ვიდეოების ID.
-//  ცარიელი id-ის მქონე ბარათი საიტზე "ვიდეო მალე დაემატება"-ს აჩვენებს.
+//  YouTube ID ბმულიდან:  youtube.com/watch?v=ihvPlaPHBy4  ->  "ihvPlaPHBy4"
+//  TikTok ID ბმულიდან:   tiktok.com/@user/video/7312345678901234567  ->  "7312345678901234567"
+//  level: "დამწყები" | "საშუალო" | "გამოცდილი"
 
 window.PANDURI_DATA = {
   //  YouTube playlist-ები: id = ბმულში list=-ის შემდეგ მდგომი ტექსტი (& ნიშნამდე)
@@ -19,13 +12,47 @@ window.PANDURI_DATA = {
     { title: "ფანდური", owner: "Zura Karaulashvili", count: 12, id: "PLJJdMPoYZ0Z4" }
   ],
 
-  lessons: [
-    { title: "პირველი აკორდები ფანდურზე", song: "საბაზისო გაკვეთილი", region: "", level: "დამწყები", platform: "youtube", id: "" },
-    { title: "ცინარე — აკომპანემენტი", song: "ცინარე", region: "კახეთი", level: "დამწყები", platform: "youtube", id: "" },
-    { title: "დელი-და", song: "დელი-და", region: "", level: "საშუალო", platform: "tiktok", id: "" },
-    { title: "თუშური — რიტმი და ჩამოკვრა", song: "თუშური", region: "თუშეთი", level: "საშუალო", platform: "youtube", id: "" },
-    { title: "ლილე", song: "ლილე", region: "სვანეთი", level: "გამოცდილი", platform: "tiktok", id: "" },
-    { title: "ჩამოკვრის ტექნიკა 60 წამში", song: "ტექნიკა", region: "", level: "დამწყები", platform: "tiktok", id: "" }
+  //  სიმღერები: თითოეულს აქვს აღწერა და გაკვეთილების სია.
+  //  ვიდეოს დასამატებლად lessons-ში ჩაამატე ახალი ხაზი იმავე ფორმატით.
+  //  ცარიელი id-ის მქონე გაკვეთილი საიტზე „ვიდეო მალე დაემატება“-ს აჩვენებს.
+  songs: [
+    {
+      name: "ხორუმი", region: "აჭარა, გურია", rhythm: "ხუთწილადი (3+2)",
+      about: "ძველი საბრძოლო საფერხულო ცეკვა. მისი მთავარი ნიშანი ხუთწილადი რიტმია, ამიტომ ჯერ ჩამოკვრის რიტმი ისწავლე ნელა და მერე აუწიე ტემპს.",
+      lessons: [
+        { title: "ხორუმი — რიტმი და ჩამოკვრა", level: "საშუალო", platform: "youtube", id: "" }
+      ]
+    },
+    {
+      name: "დავლური", region: "", rhythm: "",
+      about: "ერთ-ერთი ყველაზე გავრცელებული ქართული საცეკვაო მელოდია, ლხინისა და ქორწილის ნაცნობი ჰანგი. კარგი პირველი ნაწარმოებია დამწყებისთვის.",
+      lessons: [
+        { title: "დავლური ფანდურზე — გაკვეთილი", level: "დამწყები", platform: "youtube", id: "ihvPlaPHBy4" },
+        { title: "დავლური ფანდურზე", level: "საშუალო", platform: "youtube", id: "Ut8tVWhMrIk" }
+      ]
+    },
+    {
+      name: "სვანური", region: "სვანეთი", rhythm: "",
+      about: "სვანეთის საცეკვაო მელოდიები — მძიმე, მკაცრი ხასიათის და მკვეთრი რიტმის.",
+      lessons: [
+        { title: "სვანური ფანდურზე", level: "საშუალო", platform: "youtube", id: "" }
+      ]
+    },
+    {
+      name: "ჩუბინა", region: "", rhythm: "",
+      about: "",
+      lessons: [
+        { title: "ჩუბინა ფანდურზე", level: "საშუალო", platform: "youtube", id: "" }
+      ]
+    },
+    {
+      name: "მთიულური", region: "მთიულეთი", rhythm: "",
+      about: "სწრაფი და ენერგიული მთის ცეკვა. აქ მთავარია სუფთა, თანაბარი ჩამოკვრა მაღალ ტემპზე — ჯერ ნელა ივარჯიშე.",
+      lessons: [
+        { title: "მთიულური — ფანდურის გაკვეთილი", level: "საშუალო", platform: "youtube", id: "I8pvzovSxCo" },
+        { title: "მთიულურის ტეხილები", level: "გამოცდილი", platform: "youtube", id: "BxH7GevNINs" }
+      ]
+    }
   ],
 
   //  ოსტატი: priceFrom / priceTo ლარებში. phone სურვილისამებრ.
